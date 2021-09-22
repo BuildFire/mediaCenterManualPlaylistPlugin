@@ -83,6 +83,7 @@
                 WidgetMedia.onPlayerReady = function ($API) {
                     WidgetMedia.API = $API;
                     WidgetMedia.loadingVideo = true;
+                    WidgetMedia.fixIOSAutoPlay();
                     
                     if ($rootScope.autoPlay) {
                         // Make sure the audio is turned off
@@ -95,6 +96,14 @@
                         WidgetMedia.toggleShowVideo();
                     } 
                 };
+
+                WidgetMedia.fixIOSAutoPlay = function (){ //Ticket https://buildfire.atlassian.net/browse/CS-598
+                    var video=angular.element('video');
+                    if($rootScope.autoPlay)
+                        video.attr('autoplay', 'autoplay');//Solution https://stackoverflow.com/questions/24057565/video-autoplay-for-ios-not-working-in-app/24063028#24063028
+                    else 
+                        video.removeAttr('autoplay');
+                }
 
                 $scope.onVideoStateChange = function(state) {
                     if (state === 'play') { // The video started playing
@@ -286,6 +295,7 @@
                             $rootScope.autoPlayDelay = typeof WidgetMedia.media.data.content.autoPlayDelay !== 'undefined' ? WidgetMedia.media.data.content.autoPlayDelay : { label: "Off", value: 0 };
                             
                             // Update Data in media contoller
+                            WidgetMedia.fixIOSAutoPlay();
                             $rootScope.refreshItems();
 
                             WidgetMedia.media.data.design.itemLayout = event.data.design.itemLayout;
