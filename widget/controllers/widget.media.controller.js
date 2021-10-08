@@ -293,7 +293,7 @@
                             
                             $rootScope.autoPlay = typeof WidgetMedia.media.data.content.autoPlay !== 'undefined' ? WidgetMedia.media.data.content.autoPlay : true;
                             $rootScope.autoPlayDelay = typeof WidgetMedia.media.data.content.autoPlayDelay !== 'undefined' ? WidgetMedia.media.data.content.autoPlayDelay : { label: "Off", value: 0 };
-                            
+                            $rootScope.playAllButton =  typeof WidgetMedia.media.data.content.playAllButton !== 'undefined' ? WidgetMedia.media.data.content.playAllButton : false;
                             // Update Data in media contoller
                             WidgetMedia.fixIOSAutoPlay();
                             $rootScope.refreshItems();

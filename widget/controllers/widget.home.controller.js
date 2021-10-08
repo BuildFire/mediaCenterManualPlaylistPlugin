@@ -7,8 +7,14 @@
                 $rootScope.showFeed = true;
                 var WidgetHome = this;
                 WidgetHome.deepLink = false;
+                WidgetHome.totalRecord = null;
                 $rootScope.loadingData = true;
                 $rootScope.autoPlay = true;
+                
+                WidgetHome.globalPlaylistStrings = {
+                    plAllLoading: strings.get('playAllHeader.plAllLoading'),
+                    plAllItems: strings.get('playAllHeader.plAllItems'), 
+                }
 
                 const isLauncher = window.location.href.includes('launcherPlugin');
                 const slideElement = document.querySelector(".slide");
@@ -33,6 +39,7 @@
                             transferAudioContentToPlayList: false,
                             forceAutoPlay: false,
                             autoPlay: true,
+                            playAllButton: false,
                             autoPlayDelay: { label: "Off", value: 0 },
                             globalPlaylist: true,
                         },
@@ -82,6 +89,7 @@
 
                     $rootScope.autoPlay = typeof MediaCenterInfo.data.content.autoPlay !== 'undefined' ? MediaCenterInfo.data.content.autoPlay : true;
                     $rootScope.autoPlayDelay = typeof MediaCenterInfo.data.content.autoPlayDelay !== 'undefined' ? MediaCenterInfo.data.content.autoPlayDelay : { label: "Off", value: 0 };
+                    $rootScope.playAllButton = typeof MediaCenterInfo.data.content.playAllButton !== 'undefined' ? MediaCenterInfo.data.content.playAllButton : false;
                 },
                     function fail() {
                         MediaCenterInfo = _infoData;
@@ -158,6 +166,17 @@
                     }
                 };
 
+                WidgetHome.playAll = function(){
+                    WidgetHome.goToMedia(0);
+                }
+
+                WidgetHome.showNumberOfItems = function (){
+                    if(WidgetHome.totalRecord != null){
+                        return WidgetHome.totalRecord+" "+ ((WidgetHome.globalPlaylistStrings.plAllItems)?WidgetHome.globalPlaylistStrings.plAllItems:"Items");
+                    }
+                    else return ((WidgetHome.globalPlaylistStrings.plAllLoading)?WidgetHome.globalPlaylistStrings.plAllLoading:"Loading..");
+                }
+
                 WidgetHome.setEmptyState = function () {
                     $rootScope.showFeed = true;
                     $rootScope.showEmptyState = true;
@@ -197,8 +216,9 @@
                             $rootScope.forceAutoPlay = false; // WidgetHome.media.data.content.forceAutoPlay
                             $rootScope.skipMediaPage = WidgetHome.media.data.design.skipMediaPage;
 
-                            $rootScope.autoPlay = typeof MediaCenterInfo.data.content.autoPlay !== 'undefined' ? MediaCenterInfo.data.content.autoPlay : true;
+                            $rootScope.autoPlay = typeof WidgetHome.media.data.content.autoPlay !== 'undefined' ? WidgetHome.media.data.content.autoPlay : true;
                             $rootScope.autoPlayDelay = typeof WidgetHome.media.data.content.autoPlayDelay !== 'undefined' ? WidgetHome.media.data.content.autoPlayDelay : { label: "Off", value: 0 };
+                            $rootScope.playAllButton = typeof WidgetHome.media.data.content.playAllButton !== 'undefined' ? WidgetHome.media.data.content.playAllButton : false;
 
                             if (view && event.data.content && event.data.content.images) {
                                 view.loadItems(event.data.content.images);
@@ -427,6 +447,7 @@
                                         $rootScope.myItems = WidgetHome.items;
                                         resolve();
                                     }
+                                    WidgetHome.totalRecord=WidgetHome.items.length;
                             }).catch(err => {
                                 console.error(err);
                                 resolve()

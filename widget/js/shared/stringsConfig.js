@@ -122,6 +122,23 @@ var stringsConfig = {
       },
     },
   },
+  playAllHeader: {
+    title: "Play All",
+    labels: {
+      plAllLoading: {
+        title: "Loading Message",
+        placeholder: "Loading..",
+        maxLength: 50,
+        defaultValue: "Loading..",
+      },
+      plAllItems: {
+        title: "Items Count",
+        placeholder: "Items",
+        maxLength: 70,
+        defaultValue: "Items",
+      }
+    },
+  },
     deeplink: {
       title: "Deep link",
       labels: {

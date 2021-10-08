@@ -17,6 +17,8 @@
                     Settings.data.design.skipMediaPage = true;
                 if (typeof (Settings.data.content.autoPlay) == 'undefined')
                     Settings.data.content.autoPlay = true;
+                if (typeof (Settings.data.content.playAllButton) == 'undefined')
+                    Settings.data.content.playAllButton = false;
                 if (typeof (Settings.data.content.autoPlayDelay) == 'undefined')
                     Settings.data.content.autoPlayDelay = { label: "Off", value: 0 };
             }, (err) => {
@@ -66,6 +68,14 @@
                     }
                     if (value === true) Settings.data.design.skipMediaPage = true;
                     Settings.data.content.autoPlay = value;
+                    MediaCenter.save(Settings.data).then(() => {});
+                }
+            };
+
+            Settings.setPlayAllButton = (e) => {
+                let value = e.target.checked;
+                if (value != Settings.data.content.playAllButton) {
+                    Settings.data.content.playAllButton = value;
                     MediaCenter.save(Settings.data).then(() => {});
                 }
             };
