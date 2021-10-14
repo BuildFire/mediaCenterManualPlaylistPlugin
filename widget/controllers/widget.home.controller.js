@@ -16,13 +16,13 @@
                     plAllItems: strings.get('playAllHeader.plAllItems'), 
                 }
 
-                const isLauncher = window.location.href.includes('launcherPlugin');
+/*                 const isLauncher = window.location.href.includes('launcherPlugin');
                 const slideElement = document.querySelector(".slide");
                 if (isLauncher) {
                     slideElement.classList.add("safe-area");
                 } else {
                     slideElement.classList.remove("safe-area");
-                }
+                } */
 
                 buildfire.navigation.onAppLauncherActive(() => {
                     $rootScope.refreshItems();
