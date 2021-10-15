@@ -11,11 +11,6 @@
                 $rootScope.loadingData = true;
                 $rootScope.autoPlay = true;
                 
-                WidgetHome.globalPlaylistStrings = {
-                    plAllLoading: strings.get('playAllHeader.plAllLoading'),
-                    plAllItems: strings.get('playAllHeader.plAllItems'), 
-                }
-
 /*                 const isLauncher = window.location.href.includes('launcherPlugin');
                 const slideElement = document.querySelector(".slide");
                 if (isLauncher) {
@@ -172,9 +167,9 @@
 
                 WidgetHome.showNumberOfItems = function (){
                     if(WidgetHome.totalRecord != null){
-                        return WidgetHome.totalRecord+" "+ ((WidgetHome.globalPlaylistStrings.plAllItems)?WidgetHome.globalPlaylistStrings.plAllItems:"Items");
+                        return WidgetHome.totalRecord+" "+ strings.get("playAllHeader.plAllItems");
                     }
-                    else return ((WidgetHome.globalPlaylistStrings.plAllLoading)?WidgetHome.globalPlaylistStrings.plAllLoading:"Loading..");
+                    else return strings.get("playAllHeader.plAllLoading");
                 }
 
                 WidgetHome.setEmptyState = function () {
@@ -351,7 +346,7 @@
                         WidgetHome.items.splice(index, 1);
                         if (!$scope.$$phase && !$scope.$root.$$phase) $scope.$apply();
                         buildfire.dialog.toast({
-                            message: `Item removed from playlist`,
+                            message: strings.get('playlist.removedFromPlaylist'),
                             type: 'success',
                             duration: 2000
                         });
