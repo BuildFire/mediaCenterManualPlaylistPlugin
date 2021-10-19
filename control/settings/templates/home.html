@@ -26,6 +26,21 @@
     </div>
 </div>
 
+<div class="input-control side-label margin-bottom-thirty" ng-show="Settings.data.content.autoPlay">
+    <label for="">Show "Play All" Button
+        <span class="customTooltipBox btn-primary">
+            <span class="customTooltipText">
+                Allows users to see a "Play All" button that starts playing the first item in their playlist
+            </span>
+        </span>
+    </label>
+    <div class="button-switch">
+        <input id="playAllButtonSwitch" type="checkbox" ng-click="Settings.setPlayAllButton($event)" ng-checked="Settings.data.content.playAllButton">
+        <label for="playAllButtonSwitch" class="label-success"></label>
+    </div>
+</div>
+
+
 <div class="setting-toggle margin-bottom-thirty">
     <p class="setting-label">
         Auto Play Delay

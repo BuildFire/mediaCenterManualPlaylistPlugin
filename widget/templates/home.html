@@ -1,4 +1,11 @@
 <div id="home">
+    <div class="box-play-all" ng-show="autoPlay && playAllButton && WidgetHome.totalRecord > 0">
+        <p id="items-play-all">{{WidgetHome.showNumberOfItems()}}</p>
+        <div class="button-play-all primary" ng-click="WidgetHome.playAll()">
+            <div class="image-play-all">
+            </div>
+        </div>
+    </div>
     <div
         ng-if="WidgetHome.media.data.design.listLayout"
         ng-style="WidgetHome.deepLink ? {'visibility':'visible'} : {'visibility':'hidden'}"
