@@ -231,7 +231,7 @@
                  */
                 //var first = true;
                 var ready=false, setOder=false, first=false, open=true;
-                audioPlayer.onEvent(function (e) {
+                var mediaListener = audioPlayer.onEvent(function (e) {
                     switch (e.event) {
                         case 'play':
                             NowPlaying.playing = true;
@@ -308,6 +308,7 @@
                                     NowPlaying.finished=true;
                                 } else NowPlaying.finished=false;
                             }
+                            mediaListener.clear();
                             break;
                         case 'pause':
                             NowPlaying.playing = false;
