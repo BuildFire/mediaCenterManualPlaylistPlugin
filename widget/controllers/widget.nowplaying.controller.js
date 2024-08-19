@@ -527,9 +527,6 @@
                                   duration: 2000
                               });
                           });
-                        buildfire.dialog.toast({
-                            message: NowPlaying.playListStrings.removedFromPlaylist
-                        });
                     },
                         function (err) {
                            console.error(err);

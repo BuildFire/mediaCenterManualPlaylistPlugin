@@ -10,7 +10,6 @@
                 WidgetHome.totalRecord = null;
                 $rootScope.loadingData = true;
                 $rootScope.autoPlay = true;
-                $rootScope.currentMedia = null;
 
 /*                 const isLauncher = window.location.href.includes('launcherPlugin');
                 const slideElement = document.querySelector(".slide");
@@ -512,12 +511,10 @@
                 WidgetHome.goToMedia = function (ind) {
                     if (typeof ind != 'number') {
                         var foundObj = WidgetHome.items.find(function (el) { return el.id == ind; });
-                        $rootScope.currentMedia = foundObj;
                         ind = WidgetHome.items.indexOf(foundObj);
                     }
 
                     if (typeof ind === 'undefined' || !WidgetHome.items[ind]) {
-                        $rootScope.currentMedia = WidgetHome.items[0];
                         ind = 0;
                     }
 
@@ -527,8 +524,6 @@
                         if ($rootScope.autoPlay && !WidgetHome.items[ind]) ind = 0;
 
                         $rootScope.currentIndex = ind;
-                        $rootScope.currentMedia = WidgetHome.items[ind];
-
                         if (!$rootScope.skipMediaPage || ($rootScope.skipMediaPage && WidgetHome.items[ind].data.videoUrl)
                             || ($rootScope.skipMediaPage && !WidgetHome.items[ind].data.videoUrl && !WidgetHome.items[ind].data.audioUrl)) {
                                 Location.go('#/media/' + WidgetHome.items[ind].id, true);
