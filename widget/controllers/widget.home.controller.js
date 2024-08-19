@@ -10,7 +10,8 @@
                 WidgetHome.totalRecord = null;
                 $rootScope.loadingData = true;
                 $rootScope.autoPlay = true;
-                
+                $rootScope.currentMedia = null;
+
 /*                 const isLauncher = window.location.href.includes('launcherPlugin');
                 const slideElement = document.querySelector(".slide");
                 if (isLauncher) {
@@ -66,7 +67,7 @@
                 }
 
                 var MediaCenterInfo = null;
-            
+
                 MediaCenter.get().then(function success(result) {
                     if (result && result.data && result.id) {
                         MediaCenterInfo = result;
@@ -91,7 +92,7 @@
                         WidgetHome.media = MediaCenterInfo;
                     }
                 );
-                
+
                 var _skip = 0,
                     _limit = 15,
                     searchOptions = {
@@ -281,7 +282,7 @@
                     if (order) {
                         var sort = {};
                         sort[order.key] = order.order;
-                        
+
                         if ((order.name == "Media Title A-Z" || order.name === "Media Title Z-A")) {
                             if (order.name == "Media Title A-Z") {
                                 WidgetHome.media.data.content.updatedRecords ? searchOptions.sort = { titleIndex: 1 }
@@ -326,7 +327,7 @@
                 /**
                  * loadMore method loads the items in list page.
                  */
-                
+
                 $rootScope.removeFromGlobalPlaylist = ($event, item, index) => {
                     $event.stopImmediatePropagation();
 
@@ -374,7 +375,7 @@
                             $rootScope.showCountdown = true;
 
                             if (!$scope.$$phase && !$scope.$root.$$phase) $scope.$apply();
-                            
+
                             $rootScope.delayCountdownText = `Next will play in ${delay}`;
                             if (!$scope.$$phase && !$scope.$root.$$phase) $scope.$apply();
                             if (delayInterval) clearInterval(delayInterval);
@@ -405,7 +406,7 @@
                         if (!$scope.$$phase && !$scope.$root.$$phase) $scope.$apply();
                         return;
                     }
-                    
+
                     $rootScope.loadingData = true;
                     WidgetHome.isBusy = true;
                     buildfire.spinner.show();
@@ -465,7 +466,7 @@
                     getCurrentUser(() => {
                         // Get limit from appData
                         getGlobalPlaylistLimit();
-                        
+
                         getGlobalPlaylistItems()
                         .finally(() => {
                             WidgetHome.isBusy = false;
@@ -474,7 +475,7 @@
                             WidgetHome.globalPlaylistLoaded = true;
                             if (!$scope.$$phase && !$scope.$root.$$phase) $scope.$apply();
 
-                            // A work around for the spinner not disappearing 
+                            // A work around for the spinner not disappearing
                             clearInterval(interval);
                             interval = setInterval(() => buildfire.spinner.hide(), 300);
                             setTimeout(() => clearInterval(interval), 2000);
@@ -511,19 +512,22 @@
                 WidgetHome.goToMedia = function (ind) {
                     if (typeof ind != 'number') {
                         var foundObj = WidgetHome.items.find(function (el) { return el.id == ind; });
+                        $rootScope.currentMedia = foundObj;
                         ind = WidgetHome.items.indexOf(foundObj);
                     }
 
                     if (typeof ind === 'undefined' || !WidgetHome.items[ind]) {
+                        $rootScope.currentMedia = WidgetHome.items[0];
                         ind = 0;
                     }
 
                     $rootScope.showFeed = false;
-                    
+
                     if (ind != -1) {
                         if ($rootScope.autoPlay && !WidgetHome.items[ind]) ind = 0;
 
                         $rootScope.currentIndex = ind;
+                        $rootScope.currentMedia = WidgetHome.items[ind];
 
                         if (!$rootScope.skipMediaPage || ($rootScope.skipMediaPage && WidgetHome.items[ind].data.videoUrl)
                             || ($rootScope.skipMediaPage && !WidgetHome.items[ind].data.videoUrl && !WidgetHome.items[ind].data.audioUrl)) {

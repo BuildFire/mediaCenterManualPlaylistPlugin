@@ -61,7 +61,7 @@
                 settingsArrayOfStrings.forEach(function(el){
                     NowPlaying.settingsStrings[el.key] = strings.get("settings."+el.key)?strings.get("settings."+el.key):el.text;
                 });
-               
+
                 /**
                  * slider to show the slider on now-playing page.
                  * @type {*|jQuery|HTMLElement}
@@ -153,7 +153,7 @@
                                 var index=NowPlaying.findTrackIndex(userPlayList,filteredPlaylist[i]);
                                 if(index!=-1)
                                     audioPlayer.removeFromPlaylist(index);
-                            } 
+                            }
                         }
                     });
                 }
@@ -249,7 +249,7 @@
                                         NowPlaying.settings.autoPlayNext=false;
                                     }
                                     audioPlayer.settings.set({autoPlayNext:false});
-                                    var myInterval=setInterval(function(){ 
+                                    var myInterval=setInterval(function(){
                                         if(ready){
                                             if(!NowPlaying.isItLast){
                                                 NowPlaying.settings.autoPlayNext=true;
@@ -263,7 +263,7 @@
                                 });
                             break;
                         case 'timeUpdate':
-                            ready = e.data.duration && e.data.duration!=null && e.data.duration > 0;  
+                            ready = e.data.duration && e.data.duration!=null && e.data.duration > 0;
                             if(NowPlaying.forceAutoPlay)
                                 if(ready&&e.data.currentTime>=e.data.duration&&!first){
                                     first=true;
@@ -279,7 +279,7 @@
                                                 clearInterval(myInterval);
                                                 first=false;
                                             }
-                                        }, 100); 
+                                        }, 100);
                                     }, 500);
                                 }else if(ready&&(NowPlaying.settings.autoPlayNext||NowPlaying.forceAutoPlay))
                                 {
@@ -404,7 +404,7 @@
                     }
                     NowPlaying.playing = true;
                     if (track) {
-                        audioPlayer.play({ url: track.url });
+                        audioPlayer.play({ url: track.url?track.url:track.audioUrl });
                         track.playing = true;
                     }
                     if (!$scope.$$phase) {
@@ -515,9 +515,18 @@
                         });
 
                 };
-                NowPlaying.removeTrackFromPlayList = function (index) {
+                NowPlaying.removeTrackFromPlayList = function (index,item) {
                     Modals.removeTrackModal().then(function (data) {
-                        audioPlayer.removeFromPlaylist(index);
+                          GlobalPlaylist.delete(item.id).then(() => {
+                              delete $rootScope.globalPlaylistItems.playlist[item.id];
+                              $rootScope.myItems.splice(index, 1);
+                              if (!$scope.$$phase && !$scope.$root.$$phase) $scope.$apply();
+                              buildfire.dialog.toast({
+                                  message: strings.get('playlist.removedFromPlaylist'),
+                                  type: 'success',
+                                  duration: 2000
+                              });
+                          });
                         buildfire.dialog.toast({
                             message: NowPlaying.playListStrings.removedFromPlaylist
                         });
@@ -528,14 +537,6 @@
 
                 };
                 NowPlaying.getFromPlaylist = function () {
-                    audioPlayer.getPlaylist(function (err, data) {
-                        if (data && data.tracks) {
-                            NowPlaying.playList = data.tracks;
-                            if (!$scope.$$phase) {
-                                $scope.$digest();
-                            }
-                        }
-                    });
                     NowPlaying.openMoreInfo = false;
                     $rootScope.playlist = true;
                 };

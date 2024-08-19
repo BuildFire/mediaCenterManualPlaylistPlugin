@@ -111,27 +111,27 @@
                     <div class="list-item overflow-hidden"
                         ng-swipe-right="NowPlaying.addEvents($event, $index, false,track)"
                         ng-swipe-left="NowPlaying.addEvents($event, $index, true,track)"
-                        ng-repeat="track in NowPlaying.playList">
+                        ng-repeat="track in myItems">
                         <div class="list-item-media text-left" ng-class="{'edit' : track.swiped}">
                             <div class="list-media-holder square-icon pull-left">
-                                <img ng-if="track.image" load-image="2x1" crop-width="55" crop-height="22"
-                                    crop-type="crop" data-ng-src="{{track.image}}">
+                                <img ng-if="track.data.topImage" load-image="2x1" crop-width="55" crop-height="22"
+                                    crop-type="crop" data-ng-src="{{track.data.topImage}}">
                             </div>
                             <div class="list-item-copy text-left padding-left-ten padding-right-ten">
                                 <p class="margin-bottom-zero ellipsis margin-top-twenty bodyTextTheme">
-                                    {{track.title}}</p>
+                                    {{track.data.title}}</p>
                             </div>
                             <div class="btns text-center">
-                                <a ng-class="track.playing ? 'icon-pause-circle' : 'icon-play-circle'"
-                                    class="icon primaryTheme" ng-click="NowPlaying.playlistPlayPause(track)"></a>
+                                <a ng-class="track.data.playing ? 'icon-pause-circle' : 'icon-play-circle'"
+                                    class="icon primaryTheme" ng-click="NowPlaying.playlistPlayPause(track.data)"></a>
                             </div>
                             <div class="remove-btn text-center dangerBackgroundTheme" style="background:red;"
-                                ng-click="NowPlaying.removeTrackFromPlayList($index)">
+                                ng-click="NowPlaying.removeTrackFromPlayList($index,track)">
                                 <span class="whiteTheme">{{NowPlaying.playListStrings.removePlayListButton}}</span>
                             </div>
                         </div>
                     </div>
-                    <div ng-if="!NowPlaying.playList.length">
+                    <div ng-if="!myItems.length">
                         <h3>{{NowPlaying.playListStrings.emptyPlaylist}}</h3>
                     </div>
                 </div>
