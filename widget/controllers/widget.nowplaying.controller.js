@@ -404,7 +404,7 @@
                     }
                     NowPlaying.playing = true;
                     if (track) {
-                        audioPlayer.play({ url: track.url?track.url:track.audioUrl });
+                        audioPlayer.play({ url: track.url ? track.url : track.audioUrl });
                         track.playing = true;
                     }
                     if (!$scope.$$phase) {
