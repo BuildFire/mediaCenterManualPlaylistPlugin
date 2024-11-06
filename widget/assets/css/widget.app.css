@@ -3,7 +3,7 @@
 	.link-list a + a{
 		margin-left:4px;
 	}
-	.li-actions i, .li-actions-item i 
+	.li-actions i, .li-actions-item i
 	.li-actions i, .li-actions-item i {
 		padding: 9px 3px;
 	}
@@ -13,7 +13,7 @@
 	.link-list a + a{
 		margin-left:4px;
 	}
-	.li-actions i, .li-actions-item i 
+	.li-actions i, .li-actions-item i
 	.li-actions i, .li-actions-item i {
 		padding: 9px 3px;
 	}
@@ -24,7 +24,7 @@
 	.link-list a + a{
 		margin-left:10px;
 	}
-	.li-actions i, .li-actions-item i 
+	.li-actions i, .li-actions-item i
 	.li-actions i, .li-actions-item i {
 		padding: 9px;
 	}
@@ -37,7 +37,7 @@
     height: 100%;
 	overflow-x:hidden;
 	overflow-y:auto;
-	-webkit-overflow-scrolling:touch;	
+	-webkit-overflow-scrolling:touch;
     background-color:#fff;
 }
 .media-center-plugin.layout2 .people-banner .people-bg{
@@ -259,7 +259,7 @@
 	.holder.now-playing .media-holder{
 		display:none;
 	}
-} */
+}
 /* End Plugin CSS */
 
 
@@ -833,7 +833,7 @@ input[type=range]::-ms-track {
 
 .plugin-slide img[style]{
 	width: 100%!important;
-} 
+}
 
 .item-actions{
 	margin: 16px 0;
@@ -848,7 +848,7 @@ input[type=range]::-ms-track {
 	position: relative;
 }
 
-.li-actions i, .li-actions-item i 
+.li-actions i, .li-actions-item i
 .li-actions i, .li-actions-item i {
     position: relative;
     display: block;
@@ -857,7 +857,7 @@ input[type=range]::-ms-track {
     top: 0;
 }
 
-.li-actions-item i { padding: 5px; } 
+.li-actions-item i { padding: 5px; }
 :not(.plugin-slide)>img{
 	filter: brightness(0.8);
 }
@@ -948,7 +948,7 @@ input[type=range]::-ms-track {
 	background-position: center;
 	height: 80vh;
 }
-  
+
 .bitmap::after {
 	content: "Content is not available anymore.";
 	position: absolute;
@@ -956,7 +956,7 @@ input[type=range]::-ms-track {
 	bottom: 35%;
 	width: 100%;
 }
-  
+
 .pb15 {
 	padding-bottom: 15px !important;
 }
@@ -1009,9 +1009,9 @@ input[type=range]::-ms-track {
 }
 
 .playlist-actions {
-	position: absolute; 
-	bottom: 0; 
-	right: 0; 
+	position: absolute;
+	bottom: 0;
+	right: 0;
 	width: 100%;
 }
 
@@ -1032,7 +1032,7 @@ input[type=range]::-ms-track {
 	border-top-right-radius: 0;
 	width: 49.5%;
 	float: right;
-	transition: none;    
+	transition: none;
 }
 
 .summary {
@@ -1040,11 +1040,11 @@ input[type=range]::-ms-track {
 }
 
 .summary p {
-	font-size:13px; 
+	font-size:13px;
 	display: -webkit-box;
 	overflow: hidden;
 	-webkit-line-clamp: 2;
-	-webkit-box-orient: vertical;  
+	-webkit-box-orient: vertical;
 }
 
 .box-play-all{
