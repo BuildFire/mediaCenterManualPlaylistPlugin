@@ -535,10 +535,6 @@
                         });
 
                 };
-                NowPlaying.getFromPlaylist = function () {
-                    NowPlaying.openMoreInfo = false;
-                    $rootScope.playlist = true;
-                };
                 NowPlaying.changeTime = function (time) {
                     audioPlayer.setTime(time);
                 };
@@ -570,9 +566,6 @@
                 NowPlaying.closeSettingsOverlay = function () {
                     NowPlaying.openSettings = false;
                 };
-                NowPlaying.closePlayListOverlay = function () {
-                    $rootScope.playlist = false;
-                };
                 NowPlaying.closeMoreInfoOverlay = function () {
                     NowPlaying.openMoreInfo = false;
                 };
@@ -599,6 +592,13 @@
                     this.artist = track.artists;
                     this.startAt = 0; // where to begin playing
                     this.lastPosition = 0; // last played to
+                    this.deepLinkData = {
+                        pluginInstanceId: Buildfire.context.instanceId,
+                        payload: {
+                            id: track.id,
+                            type: 'audio',
+                        }
+                    };
                 }
 
                 /**

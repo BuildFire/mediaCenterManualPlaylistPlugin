@@ -15,11 +15,6 @@
     'width': '110%',
     'z-index': '0'}"></div>
     <div class="media-center-plugin" ng-if="!(NowPlaying.openMoreInfo || NowPlaying.openSettings)">
-        <div class="media-header-link">
-            <span ng-if="!globalPlaylist" class="btn btn-icon" ng-click="NowPlaying.getFromPlaylist()">
-                <img src="assets/css/icons/ic_playlist.svg" alt="playlist">
-            </span>
-        </div>
         <div class="media-holder">
             <div class="media-inner text-center">
                 <img ng-if="NowPlaying.currentTrack.image" load-image="1x1" crop-width="260" crop-height="260"
@@ -102,46 +97,6 @@
         </div>
     </div>
 
-    <!-- Playlist Overlay -->
-    <div ng-if="playlist" class="overlay backgroundColorTheme slide"
-        style="position:fixed; top:0; left:0; width:100%; height:100%;">
-        <div class="overlay-content" style="position:absolute; top:0; left:0; height:100%; width: 100%; overflow:auto;">
-            <div class="media-player-list-layout layout3">
-                <div class="list-layout has-btns">
-                    <div class="list-item overflow-hidden"
-                        ng-swipe-right="NowPlaying.addEvents($event, $index, false,track)"
-                        ng-swipe-left="NowPlaying.addEvents($event, $index, true,track)"
-                        ng-repeat="track in myItems">
-                        <div class="list-item-media text-left" ng-class="{'edit' : track.swiped}">
-                            <div class="list-media-holder square-icon pull-left">
-                                <img ng-if="track.data.topImage" load-image="2x1" crop-width="55" crop-height="22"
-                                    crop-type="crop" data-ng-src="{{track.data.topImage}}">
-                            </div>
-                            <div class="list-item-copy text-left padding-left-ten padding-right-ten">
-                                <p class="margin-bottom-zero ellipsis margin-top-twenty bodyTextTheme">
-                                    {{track.data.title}}</p>
-                            </div>
-                            <div class="btns text-center">
-                                <a ng-class="track.data.playing ? 'icon-pause-circle' : 'icon-play-circle'"
-                                    class="icon primaryTheme" ng-click="NowPlaying.playlistPlayPause(track.data)"></a>
-                            </div>
-                            <div class="remove-btn text-center dangerBackgroundTheme" style="background:red;"
-                                ng-click="NowPlaying.removeTrackFromPlayList($index,track)">
-                                <span class="whiteTheme">{{NowPlaying.playListStrings.removePlayListButton}}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div ng-if="!myItems.length">
-                        <h3>{{NowPlaying.playListStrings.emptyPlaylist}}</h3>
-                    </div>
-                </div>
-            </div>
-            <div class="margin-top-ten margin-bottom-ten">
-                <a ng-click="NowPlaying.closePlayListOverlay()" class="primaryTheme">{{NowPlaying.playListStrings.donePlaylist}}</a>
-            </div>
-        </div>
-    </div>
-
     <!-- More Info Overlay -->
     <div ng-if="NowPlaying.openMoreInfo" class="overlay"
         style="position:fixed; top:0; left:0; width:100%; height:100%;">
@@ -161,9 +116,6 @@
                 </div>
                 <hr class="none">
                 <div class="more-info-list padded">
-                    <div class="text-center item">
-                        <a ng-click="NowPlaying.getFromPlaylist()" class="whiteTheme">{{NowPlaying.playListStrings.goToPlaylist}}</a>
-                    </div>
                     <div class="text-center item" ng-if="!NowPlaying.transferPlaylist">
                         <a ng-click="NowPlaying.addToPlaylist(NowPlaying.currentTrack)" class="whiteTheme">{{NowPlaying.playListStrings.addToPlaylist}}</a>
                     </div>

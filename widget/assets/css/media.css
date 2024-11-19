@@ -117,18 +117,6 @@ h5{
     justify-content: space-between;
 }
 
-.media-header-link {
-    flex-shrink: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0;
-}
-
-.media-header-link .btn.btn-icon {
-    margin-left: auto;
-}
-
 .btn.btn-icon {
     background-color: transparent;
     border: 0;
@@ -236,12 +224,6 @@ h5{
 .media-player-btns {
     padding: 24px 0;
     justify-content: space-between;
-}
-
-.holder.now-playing .media-player-info, .media-header-link, .media-player-btns, .slider {
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
 }
 
 .holder.now-playing .media-player-info, .media-player-btns {

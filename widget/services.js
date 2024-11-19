@@ -506,17 +506,19 @@
                          if ($rootScope.autoPlay) {
                             playInterval = setInterval(() => {
                                 play();
-                            }, 200)
+                            }, 500);
                         }
                     });
                 } else {
-                     if ($rootScope.autoPlay) {
-                        playInterval = setInterval(() => {
-                            play();
-                        }, 500)
-                    }
+                    vidPlayer.tech().on("ready", function () {
+                        if ($rootScope.autoPlay) {
+                            playInterval = setInterval(() => {
+                                play();
+                            }, 500);
+                        }
 
-                    callback();
+                       callback();
+                    });
                 }
             }
 
