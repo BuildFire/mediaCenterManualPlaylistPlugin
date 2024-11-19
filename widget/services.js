@@ -423,7 +423,6 @@
                     controls: true,
                     techOrder: ["html5", "youtube", "vimeo"],
                     enableDocumentPictureInPicture: true,
-                    autoplay: $rootScope.autoPlay
                 });
 
                 addNextPreviousButtons();
@@ -504,7 +503,6 @@
                     vidPlayer.on('loadedmetadata', function () {
                         callback();
 
-                         // this interval is to handle youtube videos autoplay
                          if ($rootScope.autoPlay) {
                             playInterval = setInterval(() => {
                                 play();
@@ -512,7 +510,6 @@
                         }
                     });
                 } else {
-                     // this interval is to handle youtube videos autoplay
                      if ($rootScope.autoPlay) {
                         playInterval = setInterval(() => {
                             play();
