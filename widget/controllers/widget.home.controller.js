@@ -524,11 +524,10 @@
                         if ($rootScope.autoPlay && !WidgetHome.items[ind]) ind = 0;
 
                         $rootScope.currentIndex = ind;
-                        if (!$rootScope.skipMediaPage || ($rootScope.skipMediaPage && WidgetHome.items[ind].data.videoUrl)
-                            || ($rootScope.skipMediaPage && !WidgetHome.items[ind].data.videoUrl && !WidgetHome.items[ind].data.audioUrl)) {
-                                Location.go('#/media/' + WidgetHome.items[ind].id, true);
+                        if ($rootScope.skipMediaPage && WidgetHome.items[ind].data.audioUrl) {
+                            Location.go('#/nowplaying/' + WidgetHome.items[ind].id, true);
                         } else {
-                                Location.go('#/nowplaying/' + WidgetHome.items[ind].id, true);
+                            Location.go('#/media/' + WidgetHome.items[ind].id, true);
                         }
                         $rootScope.showGlobalPlaylistButtons = false;
                     }

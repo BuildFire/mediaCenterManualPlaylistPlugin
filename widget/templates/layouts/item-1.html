@@ -24,7 +24,7 @@
         <div class="padded padding-top-zero" ng-if="!WidgetMedia.fullScreen">
             <div class="item-actions">
                 <div class="link-list">
-                    <a class="media-action video" ng-click="WidgetMedia.toggleShowVideo();"
+                    <a class="media-action video" ng-click="WidgetMedia.toggleShowVideo(!WidgetMedia.showVideo);"
                         ng-if="WidgetMedia.item.data.videoUrl && !skipMediaPage">
                         <i class="btn btn-success glyphicon glyphicon-film"></i>
                     </a>
