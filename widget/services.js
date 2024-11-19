@@ -423,6 +423,7 @@
                     controls: true,
                     techOrder: ["html5", "youtube", "vimeo"],
                     enableDocumentPictureInPicture: true,
+                    autoplay: $rootScope.autoPlay
                 });
 
                 addNextPreviousButtons();
