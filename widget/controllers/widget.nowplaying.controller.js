@@ -31,6 +31,8 @@
                 NowPlaying.keepPosition=0;
                 NowPlaying.finished=false;
                 bookmarks.sync($scope);
+                Buildfire.appearance.navbar.hide();
+
 
                 var playListArrayOfStrings=[
                     {key:"addedPlaylist",text:"Added to playlist"},
@@ -750,6 +752,7 @@
                  * Unbind the onRefresh
                  */
                 $scope.$on('$destroy', function () {
+                    Buildfire.appearance.navbar.show();
                     $rootScope.blackBackground = false;
                     onRefresh.clear();
                     Buildfire.datastore.onRefresh(function () {
