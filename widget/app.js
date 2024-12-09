@@ -12,12 +12,6 @@
             'ui.bootstrap',
             'infinite-scroll',
             "ngSanitize",
-            "com.2fdevs.videogular",
-            "com.2fdevs.videogular.plugins.controls",
-            "com.2fdevs.videogular.plugins.overlayplay",
-            "rc-videogular.plugins.youtube",
-            "rc-videogular.plugins.vimeo",
-            // "videosharing-embed",
             "ngTouch"
         ])
         //injected ngRoute for routing
@@ -199,10 +193,10 @@
                 } else {
                     buildfire.navigation._goBackOne()
                     if (!$rootScope.$$phase) $rootScope.$digest();
-                }; 
+                };
             }
 
-            $rootScope.$on('$routeChangeSuccess', () => { 
+            $rootScope.$on('$routeChangeSuccess', () => {
                 var path = $location.path();
                 if (path.indexOf('/media') == 0 || path.indexOf('/nowplaying') == 0) {
                     $rootScope.showGlobalPlaylistButtons = false;
@@ -213,7 +207,6 @@
 
             buildfire.device.onAppBackgrounded(function () {
                 $rootScope.$emit('deviceLocked', {});
-                //callPlayer('ytPlayer', 'pauseVideo');
             });
         }]);
 

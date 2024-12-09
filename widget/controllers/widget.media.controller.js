@@ -1,10 +1,9 @@
 (function (angular, window) {
     angular
         .module('mediaCenterWidget')
-        .controller('WidgetMediaCtrl', ['$scope', 'Messaging', 'Buildfire', 'COLLECTIONS', 'media', 'EVENTS', '$timeout', "$sce", "DB", 'AppDB', 'PATHS', '$rootScope','Location',
-            function ($scope, Messaging, Buildfire, COLLECTIONS, media, EVENTS, $timeout, $sce, DB, AppDB, PATHS, $rootScope,Location) {
+        .controller('WidgetMediaCtrl', ['$scope', 'Messaging', 'Buildfire', 'COLLECTIONS', 'media', 'EVENTS', '$timeout', "$sce", "DB", 'AppDB', 'PATHS', '$rootScope','Location', 'VideoJSController',
+            function ($scope, Messaging, Buildfire, COLLECTIONS, media, EVENTS, $timeout, $sce, DB, AppDB, PATHS, $rootScope,Location, VideoJSController) {
                 var WidgetMedia = this;
-                WidgetMedia.API = null;
                 WidgetMedia.mediaType = null;
                 WidgetMedia.showSource = false;
                 WidgetMedia.loadingVideo = false;
@@ -19,7 +18,7 @@
                 var Android = /(android)/i.test(navigator.userAgent);
                 if(!buildfire.isWeb() && Android ) {
                     document.onfullscreenchange = function ( event ) {
-                        if((document.fullscreenElement && document.fullscreenElement.id && (document.fullscreenElement.id=="videogularElement"||document.fullscreenElement instanceof HTMLVideoElement))){
+                        if((document.fullscreenElement && document.fullscreenElement.id && (document.fullscreenElement instanceof HTMLVideoElement))){
                             document.exitFullscreen();
                             WidgetMedia.handeFullScreen();
                         }
@@ -42,13 +41,13 @@
                                     WidgetMedia.oldVideoStyle.marginTop=video.style.marginTop;
                                     WidgetMedia.oldBackgroundStyle.height=backgroundImage.style.height;
                                     WidgetMedia.oldBackgroundStyle.color=backgroundImage.style.backgroundColor;
-                                    video.style.webkitTransform = 'rotate(90deg)'; 
-                                    video.style.mozTransform = 'rotate(90deg)'; 
-                                    video.style.msTransform = 'rotate(90deg)'; 
-                                    video.style.oTransform = 'rotate(90deg)'; 
+                                    video.style.webkitTransform = 'rotate(90deg)';
+                                    video.style.mozTransform = 'rotate(90deg)';
+                                    video.style.msTransform = 'rotate(90deg)';
+                                    video.style.oTransform = 'rotate(90deg)';
                                     video.style.transform = "rotate(90deg)";
                                     video.style.transformOrigin = "bottom left";
-                                    video.style.position = "absolute"; 
+                                    video.style.position = "absolute";
                                     video.style.width = "calc(100vw*16/9)";
                                     video.style.height = "100vw";
                                     video.style.marginTop = "calc(-100vw + calc(100vh - calc(100vw * 16 / 9)) / 2)";
@@ -63,10 +62,10 @@
                                     buildfire.appearance.fullScreenMode.disable(null, (err) => {
                                     backgroundImage.style.height=WidgetMedia.oldBackgroundStyle.height;
                                     backgroundImage.style.backgroundColor=WidgetMedia.oldBackgroundStyle.color;
-                                    video.style.webkitTransform = 'rotate(0deg)'; 
-                                    video.style.mozTransform = 'rotate(0deg)'; 
-                                    video.style.msTransform = 'rotate(0deg)'; 
-                                    video.style.oTransform = 'rotate(0deg)'; 
+                                    video.style.webkitTransform = 'rotate(0deg)';
+                                    video.style.mozTransform = 'rotate(0deg)';
+                                    video.style.msTransform = 'rotate(0deg)';
+                                    video.style.oTransform = 'rotate(0deg)';
                                     video.style.transform = "rotate(0deg)";
                                     video.style.position=WidgetMedia.oldVideoStyle.position;
                                     video.style.width=WidgetMedia.oldVideoStyle.width;
@@ -80,74 +79,24 @@
                         $scope.$apply();
                 }
 
-                WidgetMedia.onPlayerReady = function ($API) {
-                    WidgetMedia.API = $API;
-                    WidgetMedia.loadingVideo = true;
-                    WidgetMedia.fixIOSAutoPlay();
-                    
-                    if ($rootScope.autoPlay) {
-                        // Make sure the audio is turned off
-                        Buildfire.services.media.audioPlayer.pause();
-                    }
-                    
-                    if ($rootScope.autoPlay && WidgetMedia.item.data.videoUrl && !$rootScope.deepLinkNavigate) {
-                        WidgetMedia.toggleShowVideo();
-                    } else if($rootScope.skipMediaPage && WidgetMedia.item.data.videoUrl && !$rootScope.deepLinkNavigate) {
-                        WidgetMedia.toggleShowVideo();
-                    } 
-                };
-
-                WidgetMedia.fixIOSAutoPlay = function (){ //Ticket https://buildfire.atlassian.net/browse/CS-598
-                    var video=angular.element('video');
-                    if($rootScope.autoPlay)
-                        video.attr('autoplay', 'autoplay');//Solution https://stackoverflow.com/questions/24057565/video-autoplay-for-ios-not-working-in-app/24063028#24063028
-                    else 
-                        video.removeAttr('autoplay');
-                }
-
-                $scope.onVideoStateChange = function(state) {
-                    if (state === 'play') { // The video started playing
-                        // Make sure the audio is turned off
-                        Buildfire.services.media.audioPlayer.pause();
-                        $scope.videoPlayed = true;
-                    }
-                };
-
-                // To overcome an issue with google showing it's play button on their videos
-                $scope.videoAlreadyPlayed = () => {
-                    if (WidgetMedia.item && WidgetMedia.item.data && WidgetMedia.item.data.videoUrl) {
-                        return (WidgetMedia.item.data.videoUrl.indexOf('youtu.be') >= 0 || media.data.videoUrl.indexOf('youtube.com') >= 0) && !$scope.videoPlayed;
-                    } else return false;
-                }
-
-                WidgetMedia.videoPlayerConfig = {
-                    autoHide: false,
-                    preload: "none",
-                    sources: undefined,
-                    tracks: undefined,
-                    theme: {
-                        url: "./assets/css/videogular.css"
-                    }
-                };
-                
                 WidgetMedia.changeVideoSrc = function () {
                     if (WidgetMedia.item.data.videoUrl){
-                        var myType;
-                        var videoUrlToSend=WidgetMedia.item.data.videoUrl;
+                        let videoType;
+                        let videoUrlToSend=WidgetMedia.item.data.videoUrl;
                         if(videoUrlToSend.includes("www.dropbox")||videoUrlToSend.includes("dl.dropbox.com")){
                             videoUrlToSend=videoUrlToSend.replace("www.dropbox","dl.dropboxusercontent").split("?dl=")[0];
                             videoUrlToSend=videoUrlToSend.replace("dl.dropbox.com","dl.dropboxusercontent.com");
-                            myType=videoUrlToSend.split('.').pop();
-                        } else {
-                            myType=videoUrlToSend.split('.').pop();
                         }
 
-                        $scope.videoPlayed = false;
+                        if (videoUrlToSend.includes("youtube.com") || videoUrlToSend.includes("youtu.be")) {
+                            videoType = "video/youtube";
+                        } else if (videoUrlToSend.includes("vimeo.com")) {
+                            videoType = "video/vimeo";
+                        } else {
+                            videoType = "video/mp4";
+                        }
 
-                        WidgetMedia.videoPlayerConfig.sources = [{
-                            src: $sce.trustAsResourceUrl(videoUrlToSend),
-                            type: 'video/' + myType //"video/mp4"
-                        }];
+                        WidgetMedia.videoType = videoType;
                     }
                 };
 
@@ -161,10 +110,6 @@
                         data: {}
                     };
                 });
-
-                WidgetMedia.sourceChanged = function ($source) {
-                    WidgetMedia.API.stop();
-                };
 
                 WidgetMedia.item = {
                     data: {
@@ -182,34 +127,16 @@
                     }
                 };
 
-                if (media) { 
+                if (media) {
                     if (!media.data.videoUrl && !media.data.audioUrl && $rootScope.autoPlay) return setTimeout($rootScope.playNextItem, 1500); // Wait for the page to load before moving
 
                     WidgetMedia.item = media;
                     WidgetMedia.mediaType = media.data.audioUrl ? 'AUDIO' : (media.data.videoUrl ?  'VIDEO' : null);
-                    WidgetMedia.item.srcUrl = media.data.srcUrl ? media.data.srcUrl 
+                    WidgetMedia.item.srcUrl = media.data.srcUrl ? media.data.srcUrl
                     : (media.data.audioUrl ? media.data.audioUrl : media.data.videoUrl);
                     bookmarks.sync($scope);
                     WidgetMedia.changeVideoSrc();
                     WidgetMedia.iframeSrcUrl = $sce.trustAsUrl(WidgetMedia.item.data.srcUrl);
-                    if($rootScope.deepLinkNavigate && $rootScope.seekTime) {
-                        if(WidgetMedia.mediaType == 'VIDEO') {
-                            var retry = setInterval(function () {
-                                if (!WidgetMedia.API || !WidgetMedia.API.isReady || WidgetMedia.API.totalTime === 0) {
-                                    return;
-                                } else {
-                                    clearInterval(retry);
-                                    WidgetMedia.API.seekTime($rootScope.seekTime);
-                                    WidgetMedia.toggleShowVideo();
-                                    $rootScope.deepLinkNavigate = null;
-                                    $rootScope.seekTime = null;
-                                    setTimeout(function () {
-                                            WidgetMedia.API.play();
-                                    }, 500);
-                                }
-                            }, 500);
-                        } 
-                    }
                 }
                 else {
                     WidgetMedia.iframeSrcUrl = '';
@@ -260,7 +187,7 @@
                         }
                     }
                 });
-                
+
                 WidgetMedia.onUpdateFn = Buildfire.datastore.onUpdate(function (event) {
                     switch (event.tag) {
                         case COLLECTIONS.MediaContent:
@@ -290,12 +217,11 @@
                             $rootScope.transferAudioContentToPlayList = false; // WidgetMedia.media.data.content.transferAudioContentToPlayList;
                             $rootScope.forceAutoPlay = false; // WidgetMedia.media.data.content.forceAutoPlay;
                             // $rootScope.skipMediaPage = WidgetMedia.media.data.design.skipMediaPage;
-                            
+
                             $rootScope.autoPlay = typeof WidgetMedia.media.data.content.autoPlay !== 'undefined' ? WidgetMedia.media.data.content.autoPlay : true;
                             $rootScope.autoPlayDelay = typeof WidgetMedia.media.data.content.autoPlayDelay !== 'undefined' ? WidgetMedia.media.data.content.autoPlayDelay : { label: "Off", value: 0 };
                             $rootScope.playAllButton =  typeof WidgetMedia.media.data.content.playAllButton !== 'undefined' ? WidgetMedia.media.data.content.playAllButton : false;
                             // Update Data in media contoller
-                            WidgetMedia.fixIOSAutoPlay();
                             $rootScope.refreshItems();
 
                             WidgetMedia.media.data.design.itemLayout = event.data.design.itemLayout;
@@ -333,13 +259,13 @@
                     if ($rootScope.skipMediaPage && !WidgetMedia.item.data.videoUrl && WidgetMedia.item.data.audioUrl) {
                         if (WidgetMedia.showVideo) {
                             WidgetMedia.showVideo = false;
-                            WidgetMedia.API.pause();
+                            VideoJSController.pause();
                         }
                         WidgetMedia.playAudio();
                     }  else if ($rootScope.autoPlay && !WidgetMedia.item.data.videoUrl && WidgetMedia.item.data.audioUrl) {
                         if (WidgetMedia.showVideo) {
                             WidgetMedia.showVideo = false;
-                            WidgetMedia.API.pause();
+                            VideoJSController.pause();
                         }
                         WidgetMedia.playAudio()
                     }
@@ -350,7 +276,7 @@
                         WidgetMedia.showVideo = true;
                     } else {
                         WidgetMedia.showVideo = false;
-                        WidgetMedia.API.pause();
+                        VideoJSController.pause();
                     }
                 };
 
@@ -358,10 +284,12 @@
                     $rootScope.playNextItem();
                 }
 
-                WidgetMedia.toggleShowVideo = function (forceShow) {
-                    WidgetMedia.showVideo = forceShow ? true : !WidgetMedia.showVideo;
-
-                    if (!$scope.$$phase && !$scope.$root.$$phase) $scope.$apply();
+                WidgetMedia.toggleShowVideo = function (showVideo) {
+                    WidgetMedia.showVideo = showVideo;
+                    if (!$scope.$$phase) {
+                        $scope.$apply();
+                        $scope.$digest();
+                    }
                 };
 
                 WidgetMedia.showSourceIframe = function () {
@@ -386,15 +314,6 @@
 
                 WidgetMedia.executeAction = function (actionItem) {
                     Buildfire.actionItems.execute(actionItem);
-                };
-
-                WidgetMedia.videoLoaded = function () {
-                    if(!buildfire.isWeb() && Android ) {//set next video to fullscreen mode
-                        if($rootScope.fullScreen && !WidgetMedia.fullScreen){
-                            WidgetMedia.handeFullScreen();
-                        }
-                    }                    
-                    WidgetMedia.loadingVideo = false;
                 };
 
                 buildfire.auth.onLogin(function (user) {
@@ -427,11 +346,11 @@
                     var link = {};
                     link.title = WidgetMedia.item.data.title;
                     link.type = "website";
-                    link.description = WidgetMedia.item.data.summary ? WidgetMedia.item.data.summary : '';                    
+                    link.description = WidgetMedia.item.data.summary ? WidgetMedia.item.data.summary : '';
                     link.data = {
                         "mediaId": WidgetMedia.item.id
                     };
-                    
+
                     buildfire.deeplink.generateUrl(link, function (err, result) {
                         if (err) {
                             console.error(err)
@@ -453,8 +372,8 @@
                         title: WidgetMedia.item.data.title,
                         imageUrl: WidgetMedia.item.data.topImage
                     };
-                    if (WidgetMedia.mediaType === 'VIDEO' && WidgetMedia.API) {
-                        options.timeIndex = WidgetMedia.API.currentTime / 1000;
+                    if (WidgetMedia.mediaType === 'VIDEO') {
+                        options.timeIndex = VideoJSController.currentTime;
                     }
 
                     var callback = function (err, data) {
@@ -467,6 +386,49 @@
 
                 WidgetMedia.openLink = function (link) {
                     Buildfire.navigation.openWindow(link, '_system');
+                };
+
+                WidgetMedia.initVideoPlayer = () => {
+                    const videoContainer = document.getElementById('videoContainer');
+                    if (!WidgetMedia.item.data.videoUrl || !videoContainer) return;
+                    WidgetMedia.loadingVideo = true;
+                    WidgetMedia.toggleShowVideo(($rootScope.skipMediaPage || $rootScope.autoPlay) && WidgetMedia.item.data.videoUrl);
+                    Buildfire.services.media.audioPlayer.pause();
+
+                    const videoOptions = {
+                        item: {
+                            ...WidgetMedia.item.data,
+                            title: WidgetMedia.item.data.title.replaceAll('"', '&quot;'),
+                            id: WidgetMedia.item.id
+                        },
+                        videoType: WidgetMedia.videoType,
+                        startAt: $rootScope.seekTime
+                    }
+
+                    VideoJSController.init(videoOptions);
+
+                    VideoJSController.onVideoReady(() => {
+                        WidgetMedia.loadingVideo = false;
+                        if (!$scope.$$phase) {
+                            $scope.$apply();
+                            $scope.$digest();
+                        }
+                    });
+                    VideoJSController.onPlayerReady(() => {
+                        VideoJSController.onVideoPlayed(() => {
+                            Buildfire.services.media.audioPlayer.pause();
+                            $scope.videoPlayed = true;
+                        });
+                        VideoJSController.onVideoPaused(() => {
+                            Buildfire.services.media.audioPlayer.pause();
+                            $scope.videoPlayed = false;
+                        });
+                        VideoJSController.onVideoEnded(() => {
+                            if ($rootScope.autoPlay) {
+                                $rootScope.playNextItem();
+                            }
+                        });
+                    })
                 };
 
               var initializing = true;
@@ -497,26 +459,6 @@
                     }
                 });
 
-                /**
-                 * Implementation of pull down to refresh
-                 */
-                var onRefresh=Buildfire.datastore.onRefresh(function(){                   
-                });
-
-                /**
-                 * Unbind the onRefresh
-                 */
-                $scope.$on('$destroy', function () {
-                    onRefresh.clear();
-                    if (WidgetMedia && WidgetMedia.clearCountdown) {
-                        WidgetMedia.clearCountdown();
-                    }
-                    WidgetMedia= null;
-                    Buildfire.datastore.onRefresh(function(){
-                        Location.goToHome();
-                    });
-                });
-
                 $rootScope.$watch('goingBackFullScreen', function () {
                     if($rootScope.goingBackFullScreen){
                         $rootScope.fullScreen=false;
@@ -526,15 +468,7 @@
 
 
                 $rootScope.$on('deviceLocked', function () {
-                    // pause videogular video (if any)
-                    if(WidgetMedia.API)
-                    WidgetMedia.API.pause();
-
-                    // pause Youtube video (no need to check if there is any yt video playing)
-                    callPlayer('ytPlayer', 'pauseVideo');
-
-                    // pause Vimeo video (no need to check if there is any vimeo video playing)
-                    callVimeoPlayer('ytPlayer');
+                    VideoJSController.pause();
                 });
 
             }]);

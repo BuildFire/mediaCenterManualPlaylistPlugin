@@ -31,6 +31,8 @@
                 NowPlaying.keepPosition=0;
                 NowPlaying.finished=false;
                 bookmarks.sync($scope);
+                Buildfire.appearance.navbar.hide();
+
 
                 var playListArrayOfStrings=[
                     {key:"addedPlaylist",text:"Added to playlist"},
@@ -533,10 +535,6 @@
                         });
 
                 };
-                NowPlaying.getFromPlaylist = function () {
-                    NowPlaying.openMoreInfo = false;
-                    $rootScope.playlist = true;
-                };
                 NowPlaying.changeTime = function (time) {
                     audioPlayer.setTime(time);
                 };
@@ -568,9 +566,6 @@
                 NowPlaying.closeSettingsOverlay = function () {
                     NowPlaying.openSettings = false;
                 };
-                NowPlaying.closePlayListOverlay = function () {
-                    $rootScope.playlist = false;
-                };
                 NowPlaying.closeMoreInfoOverlay = function () {
                     NowPlaying.openMoreInfo = false;
                 };
@@ -597,6 +592,13 @@
                     this.artist = track.artists;
                     this.startAt = 0; // where to begin playing
                     this.lastPosition = 0; // last played to
+                    this.deepLinkData = {
+                        pluginInstanceId: Buildfire.context.instanceId,
+                        payload: {
+                            id: track.id,
+                            type: 'audio',
+                        }
+                    };
                 }
 
                 /**
@@ -750,6 +752,7 @@
                  * Unbind the onRefresh
                  */
                 $scope.$on('$destroy', function () {
+                    Buildfire.appearance.navbar.show();
                     $rootScope.blackBackground = false;
                     onRefresh.clear();
                     Buildfire.datastore.onRefresh(function () {

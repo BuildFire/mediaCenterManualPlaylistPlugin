@@ -117,18 +117,6 @@ h5{
     justify-content: space-between;
 }
 
-.media-header-link {
-    flex-shrink: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0;
-}
-
-.media-header-link .btn.btn-icon {
-    margin-left: auto;
-}
-
 .btn.btn-icon {
     background-color: transparent;
     border: 0;
@@ -204,7 +192,7 @@ h5{
     margin-right: 0;
 }
 
-@media (max-height: 600px) { 
+@media (max-height: 600px) {
     .holder.now-playing .media-holder, .holder.now-playing .media-holder .media-inner img {
         max-height: 120px;
         max-width: 120px;
@@ -236,12 +224,6 @@ h5{
 .media-player-btns {
     padding: 24px 0;
     justify-content: space-between;
-}
-
-.holder.now-playing .media-player-info, .media-header-link, .media-player-btns, .slider {
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
 }
 
 .holder.now-playing .media-player-info, .media-player-btns {
@@ -477,7 +459,7 @@ button.btn-icon.btn-lg {
     border-top-left-radius: 8% ;
     border-top-right-radius: 8%;
 }
-  
+
 #countdownOverlay  .overlay-content {
     position: relative;
     top: 25%;
@@ -500,79 +482,3 @@ button.btn-icon.btn-lg {
 #countdownOverlay.h30 {
     height: 30%;
 }
-
-#videogularElement .vid-play-pause-btn,
-#videogularElement .next-item-btn,
-#videogularElement .prev-item-btn,
-#videogularElement .volume-btn,
-#videogularElement .fullscreen-btn {
-    width: 20px;
-    padding: 0 0.32rem;
-    display: table-cell;
-    vertical-align: middle;
-    text-align: center;
-    cursor: pointer;
-}
-
-#videogularElement vg-mute-button {
-    width: 32px !important; 
-}
-
-#videogularElement .iconButton {
-    border: none !important;
-}
-
-#videogularElement .next-item-btn .iconButton,
-#videogularElement .prev-item-btn .iconButton {
-    vertical-align: text-top;
-}
-
-#videogularElement .next-item-btn .iconButton i,
-#videogularElement .prev-item-btn .iconButton i {
-    color: white !important;
-    top: -1px;
-}
-
-#videogularElement vg-volume-bar .verticalVolumeBar {
-    position: fixed !important;
-}
-
-videogular .iconButton, [videogular] .iconButton,
-#videogularElement .next-item-btn .iconButton {
-    padding: 6px 4px !important;
-}
-
-#videogularElement .next-item-btn .iconButton {
-    margin-right: 0.8rem;
-}
-
-#videogularElement .iconButton i {
-    font-size: 13px;
-    top: -1px;
-}
-
-#videogularElement > vg-controls > div > vg-scrub-bar {
-    width: 100%;
-}
-
-#videogularElement .vid-time {
-    font-size: 15px;
-    width: 55px;
-    padding-left: 1.2rem;
-    padding-right: 0.3rem;
-}
-
-/* .layout2 .people-holder {
-    display: flex;
-}
-
-.layout2 .people-media img {
-    flex-shrink: 0;
-    width: 35%;
-    padding: .75rem;
-}
-
-.layout2 .people-info p {
-    font-size: .875rem;
-    text-align: left;
-} */
