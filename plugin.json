@@ -1,7 +1,7 @@
 {
   "author": "Buildfire",
-  "pluginName": "Media Center Manual Playlist",
-  "pluginDescription": "Media Center Manual Playlist is a companion plugin to the Media Center Manual plugin. Media Center Manual Playlist allows users to save media items like video and audio from multiple instances of Media Center Manual to a single global playlist",
+  "pluginName": "Media Center Playlists",
+  "pluginDescription": "Create a global playlist with the Media Center Manual Playlist plugin, allowing users to save video and audio from multiple Media Center Manual instances into one.",
   "supportEmail": "support@buildfire.com",
   "pluginIcon": "icon.png",
   "offlineModeEnabled": true,
