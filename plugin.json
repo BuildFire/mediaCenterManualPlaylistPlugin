@@ -1,7 +1,7 @@
 {
   "author": "Buildfire",
   "pluginName": "Media Center Playlists",
-  "pluginDescription": "Create a global playlist with the Media Center Playlist plugin, allowing users to save video and audio from multiple Media Center Manual instances into one.",
+  "pluginDescription": "Create a global playlist with the Media Center Playlists plugin, allowing users to save video and audio from multiple Media Center Manual instances into one.",
   "pluginKeywords": "Media Center Manual Playlist",
   "supportEmail": "support@buildfire.com",
   "pluginIcon": "icon.png",
