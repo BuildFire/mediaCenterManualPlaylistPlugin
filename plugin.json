@@ -7,7 +7,7 @@
   "pluginIcon": "icon.png",
   "offlineModeEnabled": true,
   "singleton": true,
-  "supportSite": "http://learn.appdocumentation.com/plugin-tutorials/media-center-manual-plugin-tutorial/",
+  "supportSite": "https://help.appdocumentation.com/how-to-use-the-media-center-plugin",
   "control": {
     "content": {
       "enabled": true
